@@ -20,8 +20,9 @@
              [:input {:type "text" :name "name"}]
              [:button {:type "submit"} "Add"]]))
 
-(defn include-css [path]
-  [:link {:rel "stylesheet" :type "text/css" :href path}])
+(defn include-css [& paths]
+  (for [path paths]
+    [:link {:rel "stylesheet" :type "text/css" :href path}]))
 
 (defn include-js [path]
   (identity [:script {:src path :type "text/javascript"}]))
