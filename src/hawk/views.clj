@@ -1,6 +1,6 @@
 (ns hawk.views
   (:require [hiccup.core :as h]
-            [hawk.models.account :as account]))
+            [hawk.models.db :as db]))
 
 (def -categories [{:id 1 :name "Coffee"}
                   {:id 2 :name "Restaurants"}
@@ -68,14 +68,14 @@
   (base-page
     {:title "Hawk - Accounts"
      :body [[:h2 "Accounts"]
-            (accounts-ul (account/all))
+            (accounts-ul (db/all-accounts))
             (-account-form)
             [:h2 "Categories"]
             (categories-ul -categories)]}))
 
 (defn new-account [{:keys [account-name]}]
   (when-not (= (count account-name) 0)
-    (do (account/create {:name account-name})))
+    (do (db/create-account {:name account-name})))
   "Created!")
 
 (defn transactions-page [account-id]
@@ -83,7 +83,7 @@
     {:title "Hawk - Accounts"
      :body [[:h2 [:a {:href "/accounts"} "Accounts"]]
             [:h3 (str "Transactions for "
-                      (:name (find-by-id (account/all) account-id)))]
+                      (:name (find-by-id (db/all-accounts) account-id)))]
             (transactions-ul (filter #(= account-id (str (:account %)))
                                      -transactions))]}))
 

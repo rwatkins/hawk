@@ -11,7 +11,7 @@
   (GET "/accounts" [] (views/accounts-page))
   (POST "/accounts" [& data] (views/new-account data))
   (GET "/accounts/:id" [id] (views/transactions-page id))
-  (POST "/transactions" [data] (views/new-transaction data))
+  (POST "/transactions" [& data] (views/new-transaction data))
 
   (route/files "/static" {:root (str (System/getProperty "user.dir") "/resources")})
 
