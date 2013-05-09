@@ -2,10 +2,6 @@
   (:require [hiccup.core :as h]
             [hawk.models.db :as db]))
 
-(def -categories [{:id 1 :name "Coffee"}
-                  {:id 2 :name "Restaurants"}
-                  {:id 3 :name "Travel"}])
-
 (def -transactions [{:id 1 :date "" :account 1 :payee 0 :category 1 :memo "Latte" :inflow 0 :outflow 0}
                     {:id 2 :date "" :account 1 :payee 0 :category 2 :memo "Sandwich" :inflow 0 :outflow 0}
                     {:id 3 :date "" :account 2 :payee 0 :category 3 :memo "Air fare" :inflow 0 :outflow 0}
@@ -41,7 +37,7 @@
           (map #(identity
                   [:li
                    (if (> (:category %) 0)
-                     (str "[" (:name (find-by-id -categories (:category %))) "] " (:memo %))
+                     (str "[" (:name (find-by-id (db/all-categories) (:category %))) "] " (:memo %))
                      (:memo %))])
                transactions)))
 
@@ -72,7 +68,7 @@
             (accounts-ul (db/all-accounts))
             (-account-form)
             [:h2 "Categories"]
-            (categories-ul -categories)]}))
+            (categories-ul (db/all-categories))]}))
 
 (defn new-account [{:keys [account-name]}]
   (when-not (= (count account-name) 0)

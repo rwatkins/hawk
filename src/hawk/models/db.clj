@@ -19,6 +19,10 @@
 
 (defentity category)
 
+(defn all-categories []
+  (select category))
+
+
 (defn init-data []
   (insert account
           (values [{:name "SF Fire Checking"}
