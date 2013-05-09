@@ -16,8 +16,15 @@
   (insert account
           (values [{:name name}])))
 
+
+(defentity category)
+
 (defn init-data []
   (insert account
           (values [{:name "SF Fire Checking"}
                    {:name "SF Fire Money Market"}
-                   {:name "Simple"}])))
+                   {:name "Simple"}]))
+  (insert category
+          (values [{:name "Coffee"}
+                   {:name "Restaurants"}
+                   {:name "Travel"}])))

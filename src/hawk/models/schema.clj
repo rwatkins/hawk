@@ -19,10 +19,21 @@
       [:id :serial "primary key"]
       [:name "varchar(255)"])))
 
+(defn create-category-table
+  "Creates the category table"
+  []
+  (sql/with-connection
+    db-spec
+    (sql/create-table
+      :category
+      [:id :serial "primary key"]
+      [:name "varchar(255) not null"])))
+
 (defn create-tables
   "Creates all database tables"
   []
-  (create-account-table))
+  (create-account-table)
+  (create-category-table))
 
 (defn init-db-postgres []
   (sql/with-connection db-spec
