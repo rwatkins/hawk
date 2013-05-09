@@ -19,6 +19,22 @@
       [:id :serial "primary key"]
       [:name "varchar(255)"])))
 
+(defn drop-account-table []
+  (sql/with-connection
+    db-spec
+    (sql/drop-table :account)))
+
+(defn reset-account-table []
+  (sql/with-connection
+    db-spec
+    (try
+      (drop-account-table)
+      (catch Exception e
+        (println (.getNextException e))))
+    (sql/create-table :account
+                      [:id :serial "primary key"]
+                      [:name "varchar(255) not null"])))
+
 (defn create-category-table
   "Creates the category table"
   []
@@ -29,11 +45,31 @@
       [:id :serial "primary key"]
       [:name "varchar(255) not null"])))
 
+;(defn create-transaction-table
+;  "Creates the transaction table"
+;  []
+;  (sql/with-connection
+;    db-spec
+;    (sql/create-table
+;      :transaction
+;      [:id :serial "primary key"]
+;      [])))
+
+;{:id 2 :date "" :account 1 :payee 0 :category 2 :memo "Sandwich" :inflow 0 :outflow 0}
+
 (defn create-tables
   "Creates all database tables"
   []
   (create-account-table)
   (create-category-table))
+
+(defn drop-tables
+  "Drops all database tables"
+  []
+  (sql/with-connection
+    db-spec
+    (doseq [table [:account :category]]
+      (sql/drop-table table))))
 
 (defn init-db-postgres []
   (sql/with-connection db-spec
