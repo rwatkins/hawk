@@ -85,7 +85,7 @@
           nullchar "varchar(255)"
           text "text not null"
           desc [:title varchar]
-          url [:url  varchar]
+          url [:url varchar]
           timestamp [:date_created "timestamp default localtimestamp"]
           tables [[:categories id desc url
                    [:num_posts "bigint default 0"]]
@@ -123,8 +123,10 @@
       (doseq [[table & specs] tables]
         (apply sql/create-table table specs)
         (println "Created" table)))
+    ;; Add unique constraints on 'url' column
     (doseq [table [:posts :categories :tags]]
       (sql/do-commands (str "alter table " (name table) " add constraint " (name table) "_url unique (url)")))
+    ;; Create indexes
     (doseq [[table & cols] [[:posts :category_id]
                             [:post_tags :post_id :tag_id]
                             [:comments :post_id]]
