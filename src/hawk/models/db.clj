@@ -7,14 +7,18 @@
 
 (korma.db/defdb prod schema/db-spec)
 
+
+;; Account
+
 (defentity account)
 
 (defn all-accounts []
   (select account))
 
-(defn create-account [{:keys [name]}]
+(defn create-account [{account-name :name}]
   (insert account
-          (values [{:name name}])))
+          (values [{:name account-name}])))
+
 
 ;; Category
 
@@ -27,6 +31,8 @@
   (insert category
           (values [{:name category-name}])))
 
+
+;; Miscellaneous
 
 (defn init-data []
   (insert account
