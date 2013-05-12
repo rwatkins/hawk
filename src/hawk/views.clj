@@ -16,6 +16,11 @@
              [:input {:type "text" :name "name"}]
              [:button {:type "submit"} "Add"]]))
 
+(defn -category-form []
+  (identity [:form {:method "post" :action "/categories"}
+             [:input {:type "text" :name "name"}]
+             [:button {:type "submit"} "Add"]]))
+
 (defn include-css [& paths]
   (for [path paths]
     [:link {:rel "stylesheet" :type "text/css" :href path}]))
