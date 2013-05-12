@@ -34,15 +34,19 @@
       [:id :serial "primary key"]
       [:name "varchar(255) not null"])))
 
-;(defn create-transaction-table
-;  "Creates the transaction table"
-;  []
-;  (sql/with-connection
-;    db-spec
-;    (sql/create-table
-;      :transaction
-;      [:id :serial "primary key"]
-;      [])))
+(defn create-transaction-table
+  "Creates the transaction table"
+  []
+  (sql/with-connection
+    db-spec
+    (sql/create-table
+      :transaction
+      [:id :serial "primary key"]
+      [:account_id "int references account (id) on delete set null"]
+      [:category_id "int references category (id) on delete set null"]
+      [:amount "bigint not null default 0"]
+      [:memo "text not null"]
+      [:date "timestamp with time zone not null"])))
 
 ;{:id 2 :date "" :account 1 :payee 0 :category 2 :memo "Sandwich" :inflow 0 :outflow 0}
 
@@ -50,15 +54,20 @@
   "Creates all database tables"
   []
   (create-account-table)
-  (create-category-table))
+  (create-category-table)
+  (create-transaction-table))
 
 (defn drop-tables
   "Drops all database tables"
   []
   (sql/with-connection
     db-spec
-    (doseq [table [:account :category]]
-      (sql/drop-table table))))
+    (doseq [table [:transaction
+                   :category
+                   :account]]
+      (try
+        (sql/drop-table table)
+        (catch Exception _)))))
 
 (defn init-db-postgres []
   (sql/with-connection db-spec
