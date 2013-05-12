@@ -73,21 +73,30 @@
             (accounts-ul (db/all-accounts))
             (-account-form)
             [:h2 "Categories"]
-            (categories-ul (db/all-categories))]}))
+            (categories-ul (db/all-categories))
+            (-category-form)]}))
 
-(defn new-account [{:keys [account-name]}]
-  (when-not (= (count account-name) 0)
-    (do (db/create-account {:name account-name})))
-  "Created!")
+(defn new-account [{account-name :name}]
+  (if (not= (count account-name) 0)
+    (do
+      (db/create-account {:name account-name})
+      "Created!")
+    "Fail"))
+
+(defn new-category [{category-name :name}]
+  (if (not= (count category-name) 0)
+    (do (db/create-category {:name category-name})
+      "Created!")
+    "Fail"))
 
 (defn transactions-page [account-id]
-  (base-page
-    {:title "Hawk - Accounts"
-     :body [[:h2 [:a {:href "/accounts"} "Accounts"]]
-            [:h3 (str "Transactions for "
-                      (:name (find-by-id (db/all-accounts) account-id)))]
-            (transactions-ul (filter #(= account-id (str (:account %)))
-                                     -transactions))]}))
+  (let [title "Hawk - Transactions"
+        body [[:h2 [:a {:href "/accounts"} "Accounts"]]
+              [:h3 (str "Transactions for " (:name (find-by-id (db/all-accounts) account-id)))]
+              (-transaction-form)
+              (transactions-ul (filter #(= account-id (str (:account %)))
+                                        -transactions))]]
+    (base-page {:title title :body body})))
 
 (defn save-transaction [data]
   (if (nil? (:id data))
