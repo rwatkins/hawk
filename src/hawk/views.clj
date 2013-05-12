@@ -2,12 +2,6 @@
   (:require [hiccup.core :as h]
             [hawk.models.db :as db]))
 
-(def -transactions [{:id 1 :date "" :account 1 :payee 0 :category 1 :memo "Latte" :inflow 0 :outflow 0}
-                    {:id 2 :date "" :account 1 :payee 0 :category 2 :memo "Sandwich" :inflow 0 :outflow 0}
-                    {:id 3 :date "" :account 2 :payee 0 :category 3 :memo "Air fare" :inflow 0 :outflow 0}
-                    {:id 4 :date "" :account 3 :payee 0 :category 0 :memo "Groceries" :inflow 0 :outflow 0}
-                    {:id 5 :date "" :account 1 :payee 0 :category 3 :memo "Train ticket" :inflow 0 :outflow 0}])
-
 (defn find-by-id [collection id]
   (first (filter #(= (str id) (str (:id %))) collection)))
 
@@ -29,7 +23,7 @@
   (identity [:script {:src path :type "text/javascript"}]))
 
 (defn has-transactions [account-id]
-  (some #(= account-id (:account %)) -transactions))
+  (some #(= account-id (:account %)) (db/all-transactions)))
 
 (defn account-li [{:keys [id name]}]
   (identity [:li [:a {:href (str "/accounts/" id)} name]]))
@@ -93,9 +87,7 @@
   (let [title "Hawk - Transactions"
         body [[:h2 [:a {:href "/accounts"} "Accounts"]]
               [:h3 (str "Transactions for " (:name (find-by-id (db/all-accounts) account-id)))]
-              (-transaction-form)
-              (transactions-ul (filter #(= account-id (str (:account %)))
-                                        -transactions))]]
+              (transactions-ul (filter #(= account-id (str (:account %))) (db/all-transactions)))]]
     (base-page {:title title :body body})))
 
 (defn save-transaction [data]
