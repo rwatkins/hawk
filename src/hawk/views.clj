@@ -35,8 +35,8 @@
   (reduce conj [:ul]
           (map #(identity
                   [:li
-                   (if (> (:category %) 0)
-                     (str "[" (:name (find-by-id (db/all-categories) (:category %))) "] " (:memo %))
+                   (if (> (:category_id %) 0)
+                     (str "[" (:name (find-by-id (db/all-categories) (:category_id %))) "] " (:memo %))
                      (:memo %))])
                transactions)))
 
@@ -87,7 +87,7 @@
   (let [title "Hawk - Transactions"
         body [[:h2 [:a {:href "/accounts"} "Accounts"]]
               [:h3 (str "Transactions for " (:name (find-by-id (db/all-accounts) account-id)))]
-              (transactions-ul (filter #(= account-id (str (:account %))) (db/all-transactions)))]]
+              (transactions-ul (filter #(= account-id (str (:account_id %))) (db/all-transactions)))]]
     (base-page {:title title :body body})))
 
 (defn save-transaction [data]
