@@ -16,11 +16,16 @@
   (insert account
           (values [{:name name}])))
 
+;; Category
 
 (defentity category)
 
 (defn all-categories []
   (select category))
+
+(defn create-category [{category-name :name}]
+  (insert category
+          (values [{:name category-name}])))
 
 
 (defn init-data []
