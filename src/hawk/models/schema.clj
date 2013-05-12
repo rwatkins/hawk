@@ -69,6 +69,15 @@
         (sql/drop-table table)
         (catch Exception _)))))
 
+(defn show-tables []
+  (sql/with-connection
+    db-spec
+    (sql/with-query-results
+      res
+      ["SELECT table_name FROM information_schema.tables WHERE table_schema='public' ORDER BY table_name"]
+      (doseq [row res]
+        (println (:table_name row))))))
+
 (defn init-db-postgres []
   (sql/with-connection db-spec
     (let [id [:id "bigserial primary key"]
