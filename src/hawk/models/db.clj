@@ -18,7 +18,7 @@
 (defn all-accounts []
   (select account))
 
-(defn create-account [{account-name :name}]
+(defn create-account! [{account-name :name}]
   (insert account
           (values [{:name account-name}])))
 
@@ -30,7 +30,7 @@
 (defn all-categories []
   (select category))
 
-(defn create-category [{category-name :name}]
+(defn create-category! [{category-name :name}]
   (insert category
           (values [{:name category-name}])))
 

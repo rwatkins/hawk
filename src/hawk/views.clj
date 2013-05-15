@@ -104,13 +104,13 @@
 (defn new-account [{:keys [name]}]
   (if (not= (count name) 0)
     (do
-      (db/create-account {:name name})
+      (db/create-account! {:name name})
       "Created!")
     "Fail"))
 
 (defn new-category [{category-name :name}]
   (if (not= (count category-name) 0)
-    (do (db/create-category {:name category-name})
+    (do (db/create-category! {:name category-name})
       "Created!")
     "Fail"))
 
