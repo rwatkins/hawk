@@ -42,8 +42,8 @@
     (sql/create-table
       :transaction
       [:id :serial "primary key"]
-      [:account_id "int references account (id) on delete set null"]
-      [:category_id "int references category (id) on delete set null"]
+      [:account_id "int not null references account (id) on delete set null"]
+      [:category_id "int not null references category (id) on delete set null"]
       [:amount "bigint not null default 0"]
       [:memo "text not null"]
       [:date "timestamp with time zone not null"])))

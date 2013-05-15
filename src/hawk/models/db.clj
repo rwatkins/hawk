@@ -54,7 +54,9 @@
   (prepare -format-date))
 
 (defn all-transactions []
-  (select transaction))
+  (select transaction
+          (with category
+                (fields [:name :category_name]))))
 
 (defn create-transaction!
   [{:keys [account_id amount category_id date memo]}]
