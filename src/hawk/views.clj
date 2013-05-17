@@ -62,8 +62,8 @@
 (defn transactions-ul [transactions]
   (into [:ul]
         (map #(identity
-                [:li (str "[" (:category_name %) "] "
-                          (-display-date (:date %)) ", "
+                [:li (str (-display-date (:date %)) ", "
+                          "[" (:category_name %) "] "
                           (:memo %)
                           ", $" (/ (:amount %) 100))])
              transactions)))
