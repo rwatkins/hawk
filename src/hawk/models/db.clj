@@ -39,7 +39,8 @@
 
 (defn -full-date [date-str]
   (let [fmt (clj-time.format/formatter "yyyy-MM-dd")]
-    (clj-time.format/parse fmt date-str)))
+    (when-not (empty? date-str)
+      (clj-time.format/parse fmt date-str))))
 
 (defn -format-date [{date :date :as v}]
   "Expects :date to be in the form of 'yyy-MM-dd', and converts that to
