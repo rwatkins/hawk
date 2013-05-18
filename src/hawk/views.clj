@@ -82,7 +82,8 @@
       (include-css "/static/css/base.css")]
      (conj (into [:body [:h1 [:a {:href "/"} "Hawk"]]]
                  (:body context-map))
-           (include-js "/static/lib/jquery-1.9.1.min.js"))]))
+           (include-js "/static/lib/jquery-1.9.1.min.js"
+                       "/static/lib/angular.js"))]))
 
 (defn index-page []
   (base-page
