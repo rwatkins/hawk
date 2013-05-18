@@ -16,6 +16,7 @@
     (GET  "/:id" [id] (views/transactions-page id)))
   (POST "/category" [& data] (views/new-category data))
   (POST "/transaction" [& data] (views/new-transaction data))
+  (GET "/api/account" [] (api/GET-account))
   (GET "/api/category" [] (api/GET-category))
   (route/files "/static" {:root (str (System/getProperty "user.dir") "/resources")})
   (route/not-found "Not Found"))

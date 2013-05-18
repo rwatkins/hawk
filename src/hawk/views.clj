@@ -95,7 +95,9 @@
   (base-page
     {:title "Hawk - Accounts"
      :body [[:h2 "Accounts"]
-            (accounts-ul (db/all-accounts))
+            [:ul {:ng-controller "AccountListCtrl"}
+             [:li {:ng-repeat "account in accounts"}
+              "<a href=\"/account/{{account.id}}\">{{account.name}}</a>"]]
             (-account-form)
             [:h2 "Categories"]
             [:div {:ng-controller "CategoryListCtrl"}
