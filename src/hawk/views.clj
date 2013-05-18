@@ -75,15 +75,15 @@
 
 (defn base-page [context-map]
   (h/html
-    [:html
+    [:html {:ng-app ""}
      [:head
       [:title (let [title (:title context-map)]
                 (if (nil? title) "Hawk" title))]
       (include-css "/static/css/base.css")]
-     (conj (into [:body [:h1 [:a {:href "/"} "Hawk"]]]
-                 (:body context-map))
+     (into (into [:body [:h1 [:a {:href "/"} "Hawk"]]] (:body context-map))
            (include-js "/static/lib/jquery-1.9.1.min.js"
-                       "/static/lib/angular.js"))]))
+                       "/static/lib/angular.js"
+                       "/static/js/controllers.js"))]))
 
 (defn index-page []
   (base-page
@@ -98,7 +98,11 @@
             (accounts-ul (db/all-accounts))
             (-account-form)
             [:h2 "Categories"]
-            (categories-ul (db/all-categories))
+            [:div {:ng-controller "CategoryListCtrl"}
+             [:div "Search" [:input {:type "text" :ng-model "query"}]]
+             [:ul
+              [:li {:ng-repeat "category in categories | filter:query"}
+               "{{category.name}}"]]]
             (-category-form)]}))
 
 (defn new-account [{:keys [name]}]

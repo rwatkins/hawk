@@ -4,18 +4,20 @@
             [compojure.route :as route]
             [clojure.java.jdbc :as sql]
             [korma.db]
-            [hawk.views :as views]))
+            [hawk.api :as api]
+            [hawk.views :as views]
+            [ring.middleware.json :as middleware]))
 
 (defroutes app-routes
   (GET "/" [] (views/index-page))
-  (GET "/account" [] (views/accounts-page))
-  (POST "/account" [& data] (views/new-account data))
-  (GET "/account/:id" [id] (views/transactions-page id))
+  (context "/account" []
+    (GET  "/"    [] (views/accounts-page))
+    (POST "/"    [& data] (views/new-account data))
+    (GET  "/:id" [id] (views/transactions-page id)))
   (POST "/category" [& data] (views/new-category data))
   (POST "/transaction" [& data] (views/new-transaction data))
-
+  (GET "/api/category" [] (api/GET-category))
   (route/files "/static" {:root (str (System/getProperty "user.dir") "/resources")})
-
   (route/not-found "Not Found"))
 
 (defn wrap-print-req [app]
@@ -26,4 +28,6 @@
     (app req)))
 
 (def app
-  (handler/site app-routes))
+  (-> (handler/site app-routes)
+    (middleware/wrap-json-body)
+    (middleware/wrap-json-response)))

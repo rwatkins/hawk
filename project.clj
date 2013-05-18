@@ -7,7 +7,8 @@
                  [compojure "1.1.5"]
                  [hiccup "1.0.2"]
                  [korma "0.3.0-RC5"]
-                 [postgresql/postgresql "9.1-901.jdbc4"]]
+                 [postgresql/postgresql "9.1-901.jdbc4"]
+                 [ring/ring-json "0.2.0"]]
   :plugins [[lein-ring "0.8.3"]]
   :ring {:handler hawk.handler/app}
   :profiles
