@@ -99,13 +99,14 @@
              [:li {:ng-repeat "account in accounts"}
               "<a href=\"/account/{{account.id}}\">{{account.name}}</a>"]]
             (-account-form)
-            [:h2 "Categories"]
-            [:div {:ng-controller "CategoryListCtrl"}
-             [:div "Search" [:input {:type "text" :ng-model "query"}]]
-             [:ul
-              [:li {:ng-repeat "category in categories | filter:query"}
-               "{{category.name}}"]]]
-            (-category-form)]}))
+            ;[:h2 "Categories"]
+            ;[:div {:ng-controller "CategoryListCtrl"}
+            ; [:div "Search" [:input {:type "text" :ng-model "query"}]]
+            ; [:ul
+            ;  [:li {:ng-repeat "category in categories | filter:query"}
+            ;   "{{category.name}}"]]]
+            ;(-category-form)
+            ]}))
 
 (defn new-account [{:keys [name]}]
   (if (not= (count name) 0)
