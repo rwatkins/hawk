@@ -124,9 +124,7 @@
     (base-page {:title title :body body})))
 
 (defn parse-int [s]
-  (if (or (nil? s)
-          (zero? (count s)))
-    0
+  (when-not (or (nil? s) (empty? s))
     (Integer. (re-find #"\d+" s))))
 
 (defn validator-for-key [key]
@@ -150,7 +148,7 @@
         (when-not (empty? errors) errors)))))
 
 (defn save-transaction [tr-map]
-  (let [amt (parse-int (:amount tr-map))
+  (let [amt (or (parse-int (:amount tr-map)) 0)
         data (assoc tr-map
                     :amount amt
                     :category_id (parse-int (:category_id tr-map))
