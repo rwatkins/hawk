@@ -26,6 +26,4 @@
     (app req)))
 
 (def app
-  (-> app-routes
-    (wrap-print-req)
-    (handler/site)))
+  (handler/site app-routes))
