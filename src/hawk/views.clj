@@ -17,8 +17,9 @@
   (for [path paths]
     [:link {:rel "stylesheet" :type "text/css" :href path}]))
 
-(defn include-js [path]
-  (identity [:script {:src path :type "text/javascript"}]))
+(defn include-js [& paths]
+  (for [path paths]
+    [:script {:src path :type "text/javascript"}]))
 
 
 ;; Forms
