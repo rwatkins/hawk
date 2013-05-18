@@ -37,11 +37,9 @@
 (defn -transaction-form [account-id]
   (identity [:form {:method "post" :action "/transaction"}
              [:label "Date" [:input {:name "date"}]]
-             (reduce conj
-                     [:select {:name "category_id"}
-                      [:option {:value ""} "----"]]
-                     (for [c (db/all-categories)]
-                       [:option {:value (:id c)} (:name c)]))
+             (into [:select {:name "category_id"} [:option {:value ""} "----"]]
+                   (map #(identity [:option {:value (:id %)} (:name %)])
+                        (db/all-categories)))
              [:input {:name "memo" :type "text"}]
              [:input {:name "amount" :type "text"}]
              [:input {:name "account_id" :type "hidden" :value account-id}]
