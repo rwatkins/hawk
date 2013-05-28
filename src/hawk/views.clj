@@ -75,20 +75,23 @@
 
 (defn base-page [context-map]
   (h/html
-    [:html {:ng-app ""}
+    [:html {:ng-app "hawk"}
      [:head
       [:title (let [title (:title context-map)]
                 (if (nil? title) "Hawk" title))]
       (include-css "/static/css/base.css")]
-     (into (into [:body [:h1 [:a {:href "/"} "Hawk"]]] (:body context-map))
+     (into [:body [:h1 [:a {:href "/"} "Hawk"]]
+                  (into [:div {:ng-view ""}]
+                        (:body context-map))]
            (include-js "/static/lib/jquery-1.9.1.min.js"
                        "/static/lib/angular.js"
+                       "/static/js/app.js"
                        "/static/js/controllers.js"))]))
 
 (defn index-page []
   (base-page
     {:body [[:p
-             [:a {:href "/account"} "Accounts"]
+             [:a {:href "#/account"} "Accounts"]
              [:br] "Click here to see all of your accounts."]]}))
 
 (defn accounts-page []
@@ -97,7 +100,7 @@
      :body [[:h2 "Accounts"]
             [:ul {:ng-controller "AccountListCtrl"}
              [:li {:ng-repeat "account in accounts"}
-              "<a href=\"/account/{{account.id}}\">{{account.name}}</a>"]]
+              "<a href=\"#/account/{{account.id}}\">{{account.name}}</a>"]]
             (-account-form)
             ;[:h2 "Categories"]
             ;[:div {:ng-controller "CategoryListCtrl"}

@@ -59,6 +59,12 @@
           (with category
                 (fields [:name :category_name]))))
 
+(defn transactions-for-account [account_id]
+  (select transaction
+          (with category
+                (fields [:name :category_name]))
+          (where {:account_id account_id})))
+
 (defn create-transaction!
   [{:keys [account_id amount category_id date memo]}]
   (insert transaction

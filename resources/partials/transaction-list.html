@@ -1,0 +1,15 @@
+<table>
+    <tr ng-repeat="transaction in transactions">
+        <td contenteditable>{{transaction.date | date:"yyyy-M-d"}}</td>
+        <td contenteditable>{{transaction.category_name}}</td>
+        <td contenteditable>{{transaction.memo}}</td>
+        <td contenteditable>{{transaction.amount / 100 | currency}}</td>
+    </tr>
+    <tr>
+        <td contenteditable ng-model="newTransaction">123</td>
+        <td contenteditable></td>
+        <td contenteditable></td>
+    </tr>
+</table>
+<!--<div contenteditable="true" ng-model="newTransaction" style="width: 200px; height: 50px; border: 1px solid black;"></div>-->
+<input type="text" ng-model="newTransaction">

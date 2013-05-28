@@ -7,3 +7,9 @@
 
 (defn GET-account []
   (response (db/all-accounts)))
+
+(defn GET-transaction [params]
+  (if (or (empty? params)
+          (nil? (:account_id params)))
+    (response (db/all-transactions)))
+    (response (db/transactions-for-account (Integer. (:account_id params)))))
